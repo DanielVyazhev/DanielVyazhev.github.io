@@ -317,7 +317,6 @@ function canyonOverlay(it, t) {
   const xt = w / 2 - (80 * S + tw(y, 0)) + 6, xs = w / 2 + (80 * S + lam * tw(y - 46 * S, 0)) - 6;
   ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(20,20,19,0.75)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xt, y); ctx.lineTo(xs, y); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = 'rgba(20,20,19,0.9)'; [xt, xs].forEach((x) => { ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 7); ctx.fill(); });
-  knockLabel(ctx, 'gain', (xt + xs) / 2 - 12, y - 6, 11.5, true, 0.8);
 }
 function drawAvatar(img) {
   const c = document.getElementById('avatar'); if (!c || !img) return;
