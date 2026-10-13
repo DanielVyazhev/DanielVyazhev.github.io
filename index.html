@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daniil Vyazhev · LLM Researcher</title>
+<meta name="description" content="Daniil Vyazhev, LLM researcher. Efficient fine-tuning, uncertainty and safety of language models. MSc, HSE University · PhD student, Skoltech.">
+<meta property="og:title" content="Daniil Vyazhev · LLM Researcher">
+<meta property="og:image" content="avatar.png">
+<link rel="icon" href="avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Noto+Nastaliq+Urdu&family=JetBrains+Mono&display=swap">
+<style>
+:root{--bg:#FAF9F5;--panel:#F0EEE6;--ink:#141413;--muted:#5E5D59;--rule:#dedbd2}
+@media (prefers-color-scheme:dark){:root{--bg:#181816;--panel:#222220;--ink:#ECE9E2;--muted:#A3A09A;--rule:#363531}}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);font:400 18px/1.55 'Sorts Mill Goudy',Georgia,serif;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;transition:text-decoration-color .2s}
+a:hover{text-decoration-color:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:28px 0}
+.caps{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;gap:24px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.hero{display:grid;grid-template-columns:300px minmax(0,1fr);gap:56px;align-items:center;padding:48px 0 32px}
+.portrait{width:300px;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--panel)}
+.portrait img{width:100%;height:100%;display:block}
+.portrait canvas{filter:none!important}
+.art{position:relative}
+.art canvas.ov{position:absolute;inset:0}
+h1{font-weight:400;font-size:clamp(42px,6vw,64px);line-height:1.04;margin:0}
+.role{font-style:italic;font-size:22px;color:var(--muted);margin-top:6px}
+.lede{font-size:19px;max-width:520px;margin:22px 0 0;text-wrap:pretty}
+.meta{display:flex;flex-wrap:wrap;gap:6px 24px;color:var(--muted);font-size:16px;margin-top:14px}
+.tiles{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.tiles a{background:var(--panel);padding:8px 18px;text-decoration:none;font-size:16px;white-space:nowrap;transition:background .2s}
+.tiles a:hover{background:var(--rule)}
+.strip{height:168px;margin-top:24px}
+canvas{display:block;width:100%;height:100%}
+@media (prefers-color-scheme:dark){canvas{filter:invert(.86) hue-rotate(180deg)}}
+section.ch{display:grid;grid-template-columns:330px minmax(0,1fr);gap:56px;align-items:center;padding:56px 0;border-top:1px solid var(--rule)}
+section.ch:first-of-type{margin-top:48px}
+.art{aspect-ratio:1;background:var(--panel)}
+.head{display:flex;gap:14px;align-items:baseline}
+.num{font-size:30px;line-height:1}
+.title{font-size:25px;line-height:1.3;margin:12px 0 0;font-weight:400;text-wrap:pretty}
+.body{color:var(--muted);margin:12px 0 0;text-wrap:pretty}
+.small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1.8;margin-top:14px}
+.row{display:flex;gap:18px;margin-top:16px;font-size:16px}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:40px 0 64px;border-top:1px solid var(--rule);color:var(--muted);font-size:15px}
+footer .row{margin:0}
+@media (max-width:760px){
+  .wrap{padding:0 22px}
+  nav{display:none}
+  .hero,section.ch{grid-template-columns:1fr;gap:28px}
+  .portrait{width:200px}
+  .art{max-width:420px;width:100%}
+  section.ch{padding:44px 0}
+  .strip{height:120px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="caps">Daniil Vyazhev</span>
+    <nav><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+  </header>
+
+  <div class="hero">
+    <div class="portrait"><canvas id="avatar" role="img" aria-label="Portrait of Daniil Vyazhev drawn with vertical strokes"></canvas></div>
+    <div>
+      <h1>Daniil Vyazhev</h1>
+      <div class="role">LLM Researcher</div>
+      <p class="lede">I study how language models learn, how to make that learning cheaper, and when a model's confidence can be trusted.</p>
+      <div class="meta"><span>MSc, HSE University</span><span>PhD student, Skoltech</span></div>
+      <div class="tiles" id="contact">
+        <a href="https://t.me/danivyazhev">Telegram ↗</a>
+        <a href="https://www.linkedin.com/in/danivyazhev/">LinkedIn ↗</a>
+        <a href="https://scholar.google.com/citations?user=0zpNAckAAAAJ&amp;hl=en">Google Scholar ↗</a>
+        <a href="https://github.com/DanielVyazhev">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="strip"><canvas data-art="sky" aria-label="184 questions sorted by model confidence"></canvas></div>
+
+  <main id="work">
+    <section class="ch" id="complexity-aware-fine-tuning">
+      <div class="art"><canvas data-art="entropy" aria-hidden="true"></canvas></div>
+      <div>
+        <div class="head"><span class="num">1</span><span class="caps">Findings of EACL 2026</span></div>
+        <h2 class="title">Fine-tuning that spends reasoning only where the data is hard.</h2>
+        <p class="body">The entropy of the model's answer shows how hard a question is. Easy questions get plain fine-tuning, hard ones get reasoning traces.</p>
+        <div class="small">Complexity-aware fine-tuning · arXiv 2506.21220</div>
+        <div class="row"><a href="https://aclanthology.org/2026.findings-eacl.34/">Paper</a><a href="https://github.com/LabARSS/complexity-aware-fine-tuning">Code</a></div>
+      </div>
+    </section>
+
+    <section class="ch" id="llm-uncertainty">
+      <div class="art"><canvas data-art="streams" aria-hidden="true"></canvas></div>
+      <div>
+        <div class="head"><span class="num">2</span><span class="caps">AINL 2025 · Best Paper Award</span></div>
+        <h2 class="title">When is a model's doubt justified?</h2>
+        <p class="body">Token entropy and model-as-judge scores, compared with answer correctness on about 12,000 MMLU-Pro questions.</p>
+        <div class="small">When an LLM is apprehensive about its answers</div>
+        <div class="row"><a href="https://arxiv.org/abs/2503.01688">Paper</a><a href="https://github.com/LabARSS/question-complextiy-estimation">Code</a></div>
+      </div>
+    </section>
+
+    <section class="ch" id="teacher">
+      <div class="art"><canvas data-art="canyon" aria-hidden="true"></canvas></div>
+      <div>
+        <div class="head"><span class="num">3</span><span class="caps">In preparation</span></div>
+        <h2 class="title">On learning from a teacher, more than once.</h2>
+      </div>
+    </section>
+
+    <section class="ch" id="urdu-detox">
+      <div class="art"><canvas data-art="urdu" aria-hidden="true"></canvas></div>
+      <div>
+        <div class="head"><span class="num">4</span><span class="caps">Under review · Information Processing &amp; Management</span></div>
+        <h2 class="title">Detoxification for Urdu in Nastaliq script.</h2>
+        <p class="body">Text detoxification rewrites an offensive message into a polite one while keeping what it says. Most methods and datasets are built for English. Urdu is spoken by more than 200 million people and written in Nastaliq: right to left, with letters that change shape and flow diagonally within a word. This work builds the first parallel detoxification benchmark for Nastaliq Urdu, 6.5K social-media comments with meaning-preserving rewrites, and a cascade of small models that sends only the hardest cases to a larger one.</p>
+      </div>
+    </section>
+
+    <section class="ch" id="shorter-generation">
+      <div class="art"><canvas data-art="substance" aria-hidden="true"></canvas></div>
+      <div>
+        <div class="head"><span class="num">5</span><span class="caps">In development</span></div>
+        <h2 class="title">Shorter text generation</h2>
+        <p class="body">A method that lets a model give the same answer in fewer tokens.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Daniil Vyazhev</span>
+    <div class="row"><a href="https://t.me/danivyazhev">Telegram</a><a href="https://www.linkedin.com/in/danivyazhev/">LinkedIn</a><a href="https://scholar.google.com/citations?user=0zpNAckAAAAJ&amp;hl=en">Scholar</a><a href="https://github.com/DanielVyazhev">GitHub</a></div>
+  </footer>
+</div>
+
+<script>
+const INK = 'rgba(51,51,51,';
+const SERIF = "'Sorts Mill Goudy', serif";
+function label(ctx, txt, x, y, align, size, italic, alpha) {
+  ctx.font = (italic ? 'italic ' : '') + (size || 12) + 'px ' + SERIF; ctx.textAlign = align || 'left';
+  ctx.fillStyle = 'rgba(20,20,19,' + (alpha || 0.75) + ')'; ctx.fillText(txt, x, y);
+}
+function knockLabel(ctx, txt, x, y, size, italic, alpha) {
+  ctx.font = (italic ? 'italic ' : '') + size + 'px ' + SERIF;
+  const wd = ctx.measureText(txt).width;
+  ctx.fillStyle = '#F0EEE6'; ctx.fillRect(x - 3, y - size, wd + 6, size + 5);
+  label(ctx, txt, x, y, 'left', size, italic, alpha);
+}
+function drawEntropyRun(ctx, w, h, t, pts) {
+  if (!pts || !pts.length) return;
+  const fr = (x) => x - Math.floor(x), N = pts.length, S = drawEntropyRun;
+  if (S.n !== N) {
+    const idx = [...Array(N).keys()].sort((a, b) => fr(Math.sin(a * 47.3) * 43758.5) - fr(Math.sin(b * 47.3) * 43758.5));
+    S.seq = idx.map((i) => pts[i][3]); S.n = N; S.q75 = pts.map((p) => p[3]).sort((a, b) => a - b)[Math.floor(N * 0.75)];
+  }
+  const seq = S.seq, q75 = S.q75, x0 = 0, x1 = w, top = 58, base = h - 78, dx = 7, span = N * dx;
+  const Y = (e) => base - (e / 0.87) * (base - top), off = (t * 10) % span;
+  const items = [];
+  for (let i = 0; i < N; i++) { const x = (((i * dx - off) % span) + span) % span; if (x <= x1 + dx) items.push([x, seq[i]]); }
+  items.sort((a, b) => a[0] - b[0]);
+  ctx.strokeStyle = INK + '0.35)'; ctx.lineWidth = 0.6; ctx.beginPath(); ctx.moveTo(0, base + 0.5); ctx.lineTo(w, base + 0.5); ctx.stroke();
+  ctx.setLineDash([3, 3]); ctx.strokeStyle = INK + '0.55)'; ctx.beginPath(); ctx.moveTo(0, Y(q75)); ctx.lineTo(w, Y(q75)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.strokeStyle = INK + '0.45)'; ctx.lineWidth = 0.8; ctx.beginPath();
+  items.forEach(([x, e], k) => (k ? ctx.lineTo(x, Y(e)) : ctx.moveTo(x, Y(e)))); ctx.stroke();
+  items.forEach(([x, e]) => {
+    const y = Y(e);
+    if (e > q75) { ctx.strokeStyle = 'rgba(20,20,19,0.9)'; ctx.lineWidth = 1; for (let k = 1; k <= 4; k++) { ctx.beginPath(); ctx.moveTo(x - 2.5, y - 4 - k * 3.2); ctx.lineTo(x + 2.5, y - 4 - k * 3.2); ctx.stroke(); } }
+    ctx.fillStyle = e > q75 ? 'rgba(20,20,19,0.95)' : INK + '0.7)'; ctx.beginPath(); ctx.arc(x, y, e > q75 ? 1.8 : 1.3, 0, 7); ctx.fill();
+  });
+  const g1 = ctx.createLinearGradient(0, 0, 44, 0); g1.addColorStop(0, '#F0EEE6'); g1.addColorStop(1, 'rgba(240,238,230,0)'); ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g1; ctx.fillRect(0, 0, 44, h);
+  const g2 = ctx.createLinearGradient(w - 44, 0, w, 0); g2.addColorStop(0, 'rgba(240,238,230,0)'); g2.addColorStop(1, '#F0EEE6'); ctx.fillStyle = g2; ctx.fillRect(w - 44, 0, 44, h); ctx.globalCompositeOperation = 'source-over';
+}
+function drawStreams(ctx, w, h, t) {
+  const cols = 40, rows = 34, dx = w / cols, dy = h / rows;
+  for (let c = 0; c < cols; c++) {
+    const x = dx * (c + 0.5);
+    ctx.fillStyle = INK + '0.5)'; ctx.fillRect(x - 0.3, 0, 0.6, h);
+    for (let r = 0; r < rows; r++) {
+      const n = Math.sin(c * 0.28 + t * 0.5) * Math.cos(r * 0.16 - t * 0.35) + 0.6 * Math.sin((c * 0.5 + r * 0.3) * 0.35 + t * 0.25);
+      if (n > 0.55) { const th = Math.min(4, 1.4 + (n - 0.55) * 5); ctx.fillStyle = 'rgba(80,79,74,0.85)'; ctx.fillRect(x - th / 2, r * dy + 1.5, th, dy - 3); }
+    }
+  }
+}
+function makeCanyon(w, h) {
+  const P = [], S = w / 550;
+  for (let i = 0; i < 3200; i++) {
+    const teacher = i < 2000, layers = teacher ? 8 : 5;
+    P.push({ x: w / 2, y: Math.random() * h, side: teacher ? -1 : 1, layer: Math.floor(Math.random() * layers), teacher, drift: Math.random() * 6.283, b: Math.random() });
+  }
+  return { P, w, h, S, time: 0, fresh: true };
+}
+function stepCanyon(ctx, st, speed, draw) {
+  const { P, w, h, S } = st, cx = w / 2;
+  if (draw === undefined) draw = true;
+  if (st.fresh) { ctx.fillStyle = '#F0EEE6'; ctx.fillRect(0, 0, w, h); st.fresh = false; }
+  st.time += 0.016 * speed; const time = st.time;
+  if (draw) { ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = 'rgba(0,0,0,0.07)'; ctx.fillRect(0, 0, w, h); ctx.globalCompositeOperation = 'source-over'; }
+  const lam = 0.6 + 0.4 * Math.sin(time * 0.06); st.lam = lam;
+  const tw = (y, L) => (Math.sin(y * 0.008 / S + time * 0.05) * 50 + Math.sin((y * 0.03 / S + time * 0.1 + L * 0.5) * 2) * 25 + Math.sin((y * 0.05 / S + time * 0.15 + L * 1.2) * 3) * 12) * S;
+  for (const p of P) {
+    const wave = p.teacher ? tw(p.y, p.layer) : lam * tw(p.y - 46 * S, p.layer) + (1 - lam) * Math.sin(p.y * 0.022 / S + time * 0.2 + p.layer) * 28 * S;
+    const thick = (20 + p.layer * 8) * S, target = cx + p.side * (80 * S + wave + p.layer * 15 * S); const jit = p.teacher ? 0 : (Math.random() - 0.5) * 34 * S * (1 - lam);
+    const drift = Math.sin(p.drift + time * 0.5 + p.layer * 0.3) * thick * 0.5;
+    p.x = p.x * 0.92 + (target + drift + jit) * 0.08; p.y += (0.1 + p.layer * 0.02) * speed * 1.4;
+    if (p.y > h + 20) { p.y = -20; p.drift = Math.random() * 6.283; }
+    if (!draw) continue;
+    const g = Math.round(p.teacher ? 92 + p.layer * 3 + p.b * 14 : 138 + p.layer * 4 + p.b * 16);
+    ctx.fillStyle = 'rgba(' + g + ',' + g + ',' + g + ',' + (p.teacher ? 0.55 : 0.4) + ')';
+    ctx.fillRect(p.x, p.y, p.teacher ? 0.95 : 0.75, p.teacher ? 0.95 : 0.75);
+  }
+}
+const URDU_PAIRS = [['یہ بات بالکل بکواس ہے', 'یہ بات بالکل غلط ہے'], ['تم واقعی بیوقوف ہو', 'تم واقعی نادان ہو']];
+function textPoints(txt, size, w, h, y, xr) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+  x.font = size + "px 'Noto Nastaliq Urdu'"; x.direction = 'rtl'; x.textAlign = 'right'; x.fillStyle = '#000'; x.fillText(txt, xr, y);
+  const d = x.getImageData(0, 0, w, h).data, P = [];
+  for (let xx = w - 1; xx >= 0; xx -= 2) for (let yy = 0; yy < h; yy += 2) if (d[(yy * w + xx) * 4 + 3] > 110) P.push([xx, yy]);
+  return P;
+}
+function makeUrdu(w, h) {
+  const parts = [];
+  URDU_PAIRS.slice(0, 1).forEach(([a, b], li) => {
+    const y = h * 0.56, A = textPoints(a, 40, w, h, y, w - 22), B = textPoints(b, 40, w, h, y, w - 22);
+    let m = 0; while (m < A.length && m < B.length && A[m][0] === B[m][0] && A[m][1] === B[m][1]) m++;
+    const N = Math.max(A.length, B.length);
+    for (let i = 0; i < N; i++) {
+      const a0 = i < m ? A[i] : A[Math.min(A.length - 1, m + Math.floor(((i - m) * (A.length - m)) / Math.max(1, N - m)))];
+      const b0 = i < m ? B[i] : B[Math.min(B.length - 1, m + Math.floor(((i - m) * (B.length - m)) / Math.max(1, N - m)))];
+      parts.push({ a: a0, b: b0, mv: Math.hypot(a0[0] - b0[0], a0[1] - b0[1]) > 2, s: Math.random() * 6.283 });
+    }
+  });
+  return { parts, w, h, fresh: true };
+}
+function stepUrdu(ctx, st, t) {
+  const { w, h } = st;
+  if (st.fresh) { ctx.fillStyle = '#F0EEE6'; ctx.fillRect(0, 0, w, h); st.fresh = false; }
+  ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = 'rgba(0,0,0,0.22)'; ctx.fillRect(0, 0, w, h); ctx.globalCompositeOperation = 'source-over';
+  const T = 14, p = (t % T) / T, ease = (u) => u * u * (3 - 2 * u);
+  let u = 0; if (p < 0.32) u = 0; else if (p < 0.55) u = ease((p - 0.32) / 0.23); else if (p < 0.85) u = 1; else u = 1 - ease((p - 0.85) / 0.15);
+  const storm = Math.sin(Math.PI * u);
+  for (const q of st.parts) {
+    let x = q.a[0] + (q.b[0] - q.a[0]) * u, y = q.a[1] + (q.b[1] - q.a[1]) * u;
+    const br = 0.6 * Math.sin(t * 0.8 + q.s * 3);
+    x += Math.cos(q.s + t * 0.5) * br; y += Math.sin(q.s * 1.3 + t * 0.6) * br;
+    if (q.mv) {
+      const ang = q.s + t * 0.9 + y * 0.03, r = storm * (18 + 22 * Math.sin(q.s * 5));
+      x += Math.cos(ang) * r; y += Math.sin(ang) * r * 0.6 + storm * 26 * Math.sin(q.s * 2.1);
+    }
+    const a = q.mv ? 0.35 + 0.45 * (1 - storm) : 0.78;
+    ctx.fillStyle = 'rgba(' + (q.mv ? 70 : 24) + ',' + (q.mv ? 69 : 24) + ',' + (q.mv ? 65 : 22) + ',' + a.toFixed(2) + ')';
+    ctx.fillRect(x, y, 1.2, 1.2);
+  }
+}
+function drawSubstance(ctx, w, h, t) {
+  const fr = (x) => x - Math.floor(x), x0 = 30, x1 = w - 30, T = 14, p = (t % T) / T, ease = (u) => u * u * (3 - 2 * u);
+  const evap = p < 0.25 ? 0 : p < 0.45 ? (p - 0.25) / 0.2 : 1;
+  let comp = p < 0.45 ? 0 : p < 0.6 ? ease((p - 0.45) / 0.15) : p < 0.85 ? 1 : 1 - ease((p - 0.85) / 0.15);
+  const back = p >= 0.85 ? ease((p - 0.85) / 0.15) : 0;
+  for (let L = 0; L < 12; L++) {
+    const y = 40 + L * 22, end = L === 11 ? x0 + (x1 - x0) * 0.5 : x1 - fr(Math.sin(L * 9.1) * 999) * 26;
+    const words = []; let x = x0, k = 0;
+    while (x < end) { const id = L * 40 + k, r = fr(Math.sin(id * 12.9898) * 43758.5453), len = Math.min(end - x, 10 + r * 30);
+      words.push({ x, len, filler: fr(Math.sin(Math.floor(id / 2) * 78.233) * 43758.5453) > 0.66, id }); x += len + 6; k++; }
+    let cx = x0; words.forEach((wd) => { if (!wd.filler) { wd.cx = cx; cx += wd.len + 6; } });
+    words.forEach((wd) => {
+      if (wd.filler) {
+        const a = p >= 0.85 ? back : 1 - evap;
+        if (a > 0.01) { ctx.fillStyle = INK + (0.3 * a).toFixed(2) + ')'; ctx.fillRect(wd.x, y - 0.5, wd.len, 1); }
+        if (evap > 0 && evap < 1) for (let d = 0; d < 7; d++) { const r = fr(Math.sin((wd.id * 7 + d) * 3.3) * 9999);
+          ctx.fillStyle = INK + ((1 - evap) * 0.6).toFixed(2) + ')'; ctx.fillRect(wd.x + r * wd.len, y - evap * (10 + r * 22), 1.4, 1.4); }
+      } else {
+        const xx = wd.x + (wd.cx - wd.x) * comp; ctx.fillStyle = 'rgba(20,20,19,0.85)'; ctx.fillRect(xx, y - 1.5, wd.len, 3);
+      }
+    });
+  }
+}
+function drawSkylineCtx(ctx, w, h, pts) {
+  const n = pts.length, cw = w / n, lh = 7, maxRows = Math.floor(h / lh) - 1;
+  ctx.font = "6.4px 'JetBrains Mono', monospace"; ctx.textBaseline = 'bottom'; ctx.textAlign = 'center';
+  pts.forEach((p, i) => { const rows = 2 + Math.round((1 - Math.min(1, p[3] / 0.8)) ** 1.4 * (maxRows - 2));
+    for (let j = 0; j < rows; j++) { ctx.fillStyle = p[1] ? 'rgba(20,20,19,0.85)' : 'rgba(51,51,51,' + (0.5 - (j / rows) * 0.25).toFixed(2) + ')';
+      ctx.fillText(p[1] ? (j < rows * 0.6 ? '#' : '+') : (j < rows * 0.5 ? ':' : '.'), i * cw + cw / 2, h - j * lh); } });
+}
+
+function drawSkyAnim(ctx, w, h, pts, t) {
+  const n = pts.length, cw = w / n, lh = 7, maxRows = Math.floor(h / lh) - 1;
+  ctx.font = "6.4px 'JetBrains Mono', monospace"; ctx.textBaseline = 'bottom'; ctx.textAlign = 'center';
+  pts.forEach((p, i) => {
+    const base = 2 + Math.pow(1 - Math.min(1, p[3] / 0.8), 1.4) * (maxRows - 2), wave = 0.5 + 0.5 * Math.sin(t * 1.1 - i * 0.09);
+    const rows = Math.max(1, Math.round(base * (0.8 + 0.2 * wave)));
+    for (let j = 0; j < rows; j++) {
+      ctx.fillStyle = p[1] ? 'rgba(20,20,19,' + (j === rows - 1 ? (0.5 + 0.4 * wave).toFixed(2) : '0.85') + ')' : 'rgba(51,51,51,' + (0.5 - (j / rows) * 0.25).toFixed(2) + ')';
+      ctx.fillText(p[1] ? (j < rows * 0.6 ? '#' : '+') : (j < rows * 0.5 ? ':' : '.'), i * cw + cw / 2, h - j * lh);
+    }
+  });
+}
+function canyonOverlay(it, t) {
+  const st = it.st; if (!st) return;
+  if (!it.ov) { it.ov = document.createElement('canvas'); it.ov.className = 'ov'; it.c.parentNode.appendChild(it.ov); }
+  const dpr = window.devicePixelRatio || 1, w = it.w, h = it.h;
+  if (it.ov.width !== Math.round(w * dpr)) { it.ov.width = Math.round(w * dpr); it.ov.height = Math.round(h * dpr); }
+  const ctx = it.ov.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+  knockLabel(ctx, 'teacher entropy', w * 0.27 - 42, 24, 12.5, true, 0.85);
+  knockLabel(ctx, 'student entropy', w * 0.73 - 42, 24, 12.5, true, 0.85);
+  const S = st.S, time = st.time, lam = st.lam || 0.6;
+  const tw = (yy, L) => (Math.sin(yy * 0.008 / S + time * 0.05) * 50 + Math.sin((yy * 0.03 / S + time * 0.1 + L * 0.5) * 2) * 25 + Math.sin((yy * 0.05 / S + time * 0.15 + L * 1.2) * 3) * 12) * S;
+  const y = 60 + ((time * 20) % (h - 96));
+  const xt = w / 2 - (80 * S + tw(y, 0)) + 6, xs = w / 2 + (80 * S + lam * tw(y - 46 * S, 0)) - 6;
+  ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(20,20,19,0.75)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(xt, y); ctx.lineTo(xs, y); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(20,20,19,0.9)'; [xt, xs].forEach((x) => { ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 7); ctx.fill(); });
+  knockLabel(ctx, 'gain', (xt + xs) / 2 - 12, y - 6, 11.5, true, 0.8);
+}
+function drawAvatar(img) {
+  const c = document.getElementById('avatar'); if (!c || !img) return;
+  const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight; if (!w) return;
+  c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+  const ctx = c.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cs = getComputedStyle(document.documentElement), dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  ctx.fillStyle = cs.getPropertyValue('--panel').trim(); ctx.fillRect(0, 0, w, h);
+  const G = 160, o = document.createElement('canvas'); o.width = o.height = G; const ox = o.getContext('2d'); ox.drawImage(img, 0, 0, G, G);
+  const d = ox.getImageData(0, 0, G, G).data, L = [];
+  for (let i = 0; i < G * G; i++) L.push(0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2]);
+  const s = [...L].sort((a, b) => a - b), lo = s[Math.floor(G * G * 0.04)], hi = s[Math.floor(G * G * 0.97)];
+  const at = (x, y) => { const q = Math.max(0, Math.min(G - 1, Math.floor((x / w) * G))), r = Math.max(0, Math.min(G - 1, Math.floor((y / h) * G)));
+    const l = Math.max(0, Math.min(1, (L[r * G + q] - lo) / (hi - lo))), nx = q / G - 0.5, ny = r / G - 0.5, dd = Math.sqrt(nx * nx + ny * ny) * 2;
+    return (dark ? Math.pow(l, 1.15) : Math.pow(1 - l, 1.25)) * (1 - Math.max(0, Math.min(1, (dd - 0.9) / 0.12))); };
+  ctx.fillStyle = cs.getPropertyValue('--ink').trim(); ctx.globalAlpha = 0.9;
+  const cw = w / 72;
+  for (let x = 0; x < w; x += cw) for (let y = 0; y < h; y += 1.2) { const v = at(x, y); if (v < 0.05) continue; const t = v * cw * 0.9; ctx.fillRect(x + (cw - t) / 2, y, t, 1.3); }
+  ctx.globalAlpha = 1;
+}
+(function () {
+  const img = new Image(); let ok = false;
+  img.onload = () => { ok = true; drawAvatar(img); };
+  img.src = 'avatar-src.png';
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => ok && drawAvatar(img));
+  let lw = window.innerWidth; window.addEventListener('resize', () => { if (ok && Math.abs(window.innerWidth - lw) > 40) { lw = window.innerWidth; drawAvatar(img); } });
+})();
+(function () {
+  let PTS = null;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = [...document.querySelectorAll('canvas[data-art]')].map((c) => ({ c, kind: c.dataset.art, st: null, w: 0, vis: false, drawn: false }));
+  function size(it) {
+    const dpr = window.devicePixelRatio || 1, w = it.c.clientWidth, h = it.c.clientHeight;
+    if (it.w !== w || it.h !== h) { it.c.width = Math.round(w * dpr); it.c.height = Math.round(h * dpr); it.w = w; it.h = h; it.st = null; }
+    const ctx = it.c.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return ctx;
+  }
+  const urduReady = () => !document.fonts || document.fonts.check("32px 'Noto Nastaliq Urdu'");
+  function frame(it, t) {
+    const ctx = size(it), w = it.w, h = it.h; if (!w || !h) return;
+    switch (it.kind) {
+      case 'sky': if (!PTS) return; ctx.clearRect(0, 0, w, h); drawSkyAnim(ctx, w, h, PTS, t); return;
+      case 'entropy': if (!PTS) return; ctx.clearRect(0, 0, w, h); drawEntropyRun(ctx, w, h, t, PTS); return;
+      case 'streams': ctx.clearRect(0, 0, w, h); drawStreams(ctx, w, h, t * 0.3); return;
+      case 'substance': ctx.clearRect(0, 0, w, h); drawSubstance(ctx, w, h, t); return;
+      case 'canyon': if (!it.st) { ctx.clearRect(0, 0, w, h); it.st = makeCanyon(w, h); it.st.fresh = false; for (let k = 0; k < 120; k++) stepCanyon(ctx, it.st, 1, false); } stepCanyon(ctx, it.st, reduce ? 0 : 1, true); canyonOverlay(it, t); return;
+      case 'urdu': if (!urduReady()) return; if (!it.st) { it.st = makeUrdu(w, h); it.st.fresh = false; ctx.clearRect(0, 0, w, h); } stepUrdu(ctx, it.st, t); return;
+    }
+  }
+  let last = 0;
+  function loop() {
+    const now = performance.now();
+    if (now - last < 45) return; last = now;
+    const t = reduce ? 12 : now / 1000;
+    items.forEach((it) => { const r = it.c.getBoundingClientRect(); it.vis = r.bottom > -120 && r.top < window.innerHeight + 120; });
+    items.forEach((it) => { if (it.vis && !(reduce && it.drawnStatic)) { try { frame(it, t); if (reduce) it.drawnStatic = true; } catch (e) { console.error(it.kind, e); } } });
+  }
+  const D = {"cats":["engineering","physics","philosophy","math","chemistry","psychology","law","business","other","computer science","history","economics","biology","health"],"phi":[[3.01,0,0,0.245],[0.31,1,1,0.025],[0.4,1,2,0.033],[0.26,1,0,0.022],[5.35,0,2,0.437],[0.54,1,3,0.044],[3.28,0,0,0.268],[1.45,0,4,0.118],[2.88,0,5,0.235],[3.99,0,1,0.326],[0,1,6,0],[3.04,0,1,0.248],[0.16,1,1,0.013],[1.1,1,1,0.09],[0.39,1,1,0.032],[3.33,0,1,0.272],[1.05,0,0,0.086],[0.48,1,5,0.039],[3.54,0,2,0.289],[2.45,0,3,0.2],[1.45,0,7,0.119],[2.62,0,6,0.214],[6.13,0,3,0.501],[0.77,1,5,0.063],[0,1,1,0],[5.48,0,3,0.447],[0,1,5,0],[0.05,1,2,0.004],[1.92,0,5,0.157],[0.47,1,8,0.038],[4.78,0,4,0.39],[4.41,0,3,0.36],[1.7,0,1,0.139],[9.5,0,1,0.776],[0.02,1,2,0.002],[2.84,0,9,0.232],[3.78,0,5,0.309],[5.01,0,0,0.409],[3.82,0,10,0.312],[0.16,1,11,0.013],[2.73,0,0,0.223],[2.99,0,1,0.244],[0.01,1,12,0.001],[2.13,0,8,0.174],[0.01,1,3,0.001],[7.57,0,0,0.618],[0.01,1,6,0],[0.75,1,4,0.061],[0,1,5,0],[3.21,0,6,0.262],[4.9,0,7,0.4],[3.32,0,4,0.271],[1.66,0,0,0.135],[5.42,0,6,0.443],[5.53,0,6,0.451],[0.55,1,3,0.045],[0,1,12,0],[7.37,0,1,0.601],[8.99,0,6,0.734],[0.01,1,5,0.001],[0.01,1,8,0],[4.95,0,3,0.404],[1.94,0,0,0.158],[3.45,0,8,0.281],[0.24,1,3,0.019],[1.91,0,0,0.156],[0.03,1,8,0.003],[4.38,0,4,0.358],[0.65,1,1,0.053],[3.47,0,1,0.283],[4.01,0,4,0.328],[0.01,1,11,0.001],[2.15,0,8,0.175],[7.13,0,13,0.582],[9.03,0,6,0.737],[2.09,0,1,0.171],[3.18,0,3,0.26],[0.35,1,0,0.028],[1.32,0,11,0.108],[4.97,0,8,0.405],[0.48,1,1,0.039],[1.42,0,4,0.116],[0.01,1,0,0.001],[0.09,1,10,0.007],[0.01,1,13,0.001],[6.13,0,7,0.501],[0.01,1,6,0.001],[4.11,0,8,0.336]],"qwen":[[6.6,0,13,0.28],[13.42,0,7,0.569],[1.83,0,3,0.078],[11.18,0,8,0.475],[6.13,0,0,0.26],[2.43,0,3,0.103],[18.66,0,1,0.792],[7.92,0,9,0.336],[6.28,0,2,0.267],[6.23,0,1,0.264],[5.22,0,7,0.222],[0.26,1,1,0.011],[8.16,0,1,0.346],[0.07,1,0,0.003],[1.55,0,3,0.066],[12.55,0,8,0.533],[9.06,0,4,0.385],[0.16,1,2,0.007],[8.52,0,12,0.361],[8.61,0,2,0.365],[5.54,0,7,0.235],[9.74,0,1,0.413],[5.49,0,0,0.233],[8.34,0,3,0.354],[0.39,1,0,0.016],[14.67,0,7,0.623],[18.19,0,1,0.772],[6.58,0,8,0.279],[8.65,0,6,0.367],[8.8,0,11,0.373],[0.01,1,0,0],[5.21,0,1,0.221],[5.43,0,6,0.231],[1.34,1,1,0.057],[0,1,6,0],[4.9,0,4,0.208],[4.75,0,0,0.202],[10.75,0,3,0.456],[11.58,0,13,0.491],[3.03,0,3,0.129],[0.05,1,12,0.002],[3.81,0,8,0.162],[9.34,0,0,0.396],[6.15,0,8,0.261],[4.21,0,7,0.179],[3.84,0,1,0.163],[5.71,0,6,0.242],[5.07,0,6,0.215],[7.91,0,12,0.336],[0.01,1,4,0.001],[5.83,0,1,0.248],[4.1,0,8,0.174],[0.67,1,4,0.029],[7.03,0,6,0.299],[2.67,0,1,0.114],[8.48,0,7,0.36],[0,1,7,0],[6.02,0,5,0.256],[1.48,0,8,0.063],[13.68,0,12,0.58],[4.74,0,6,0.201],[8.37,0,8,0.355],[1.43,0,1,0.061],[6.98,0,8,0.296],[20.45,0,8,0.868],[12.56,0,8,0.533],[0,1,11,0],[11.21,0,0,0.476],[15.03,0,3,0.638],[4.53,0,6,0.192],[2.5,0,4,0.106],[3.34,0,3,0.142],[10.9,0,12,0.462],[9.96,0,13,0.423],[0.8,0,7,0.034],[3.98,0,7,0.169],[6.01,0,6,0.255],[4.27,0,4,0.181],[2.96,0,4,0.126],[0,1,3,0],[7.68,0,3,0.326],[3.34,0,4,0.142],[6.83,0,1,0.29],[4.64,0,7,0.197],[6.13,0,12,0.26],[0,1,7,0],[9.11,0,8,0.387],[5.41,0,2,0.23],[5.49,0,8,0.233],[4.63,0,6,0.196],[6.85,0,11,0.291],[0.22,1,5,0.009],[0,1,1,0],[7.95,0,8,0.337],[0.01,1,9,0],[2.21,0,1,0.094]]}; PTS = [...D.phi, ...D.qwen].sort((a, b) => a[3] - b[3]);
+  if (document.fonts) { document.fonts.load("32px 'Noto Nastaliq Urdu'"); document.fonts.load("10px 'JetBrains Mono'"); }
+  setInterval(loop, 50);
+})();
+</script>
+</body>
+</html>
