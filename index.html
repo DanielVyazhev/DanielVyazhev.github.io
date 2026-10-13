@@ -74,7 +74,7 @@ footer .row{margin:0}
     <div>
       <h1>Daniil Vyazhev</h1>
       <div class="role">LLM Researcher</div>
-      <p class="lede">I study how language models learn, how to make that learning cheaper, and when a model's confidence can be trusted.</p>
+      <p class="lede">I work on efficient fine-tuning and uncertainty estimation for language models.</p>
       <div class="meta"><span>MSc, HSE University</span><span>PhD student, Skoltech</span></div>
       <div class="tiles" id="contact">
         <a href="https://t.me/danivyazhev">Telegram ↗</a>
@@ -91,9 +91,8 @@ footer .row{margin:0}
       <div class="art"><canvas data-art="entropy" aria-hidden="true"></canvas></div>
       <div>
         <div class="head"><span class="num">1</span><span class="caps">Findings of EACL 2026</span></div>
-        <h2 class="title">Fine-tuning that spends reasoning only where the data is hard.</h2>
-        <p class="body">The entropy of the model's answer shows how hard a question is. Easy questions get plain fine-tuning, hard ones get reasoning traces.</p>
-        <div class="small">Complexity-aware fine-tuning · arXiv 2506.21220</div>
+        <h2 class="title">Complexity-Aware Fine-Tuning</h2>
+        <p class="body">Distilling chain-of-thought from a larger model beats plain fine-tuning, but costs many expensive calls and much more data. We use reasoning only where the data is hard for the student, measured by single-token answer entropy. On three small open models (~3B) this outperforms SFT (0.58 vs 0.45 average accuracy) and distillation (0.58 vs 0.56) with 81% less data.</p>
         <div class="row"><a href="https://aclanthology.org/2026.findings-eacl.34/">Paper</a><a href="https://github.com/LabARSS/complexity-aware-fine-tuning">Code</a></div>
       </div>
     </section>
@@ -102,9 +101,8 @@ footer .row{margin:0}
       <div class="art"><canvas data-art="streams" aria-hidden="true"></canvas></div>
       <div>
         <div class="head"><span class="num">2</span><span class="caps">AINL 2025 · Best Paper Award</span></div>
-        <h2 class="title">When is a model's doubt justified?</h2>
-        <p class="body">Token entropy and model-as-judge scores, compared with answer correctness on about 12,000 MMLU-Pro questions.</p>
-        <div class="small">When an LLM is apprehensive about its answers</div>
+        <h2 class="title">When an LLM Is Apprehensive about Its Answers, and When Its Uncertainty Is Justified</h2>
+        <p class="body">We compare token-wise entropy and model-as-judge scores with answer correctness on MMLU-Pro, for five model families from 1.5B to 72B, across topics and the amount of reasoning a question needs. Entropy is a good predictor of errors, especially in knowledge-heavy domains.</p>
         <div class="row"><a href="https://arxiv.org/abs/2503.01688">Paper</a><a href="https://github.com/LabARSS/question-complextiy-estimation">Code</a></div>
       </div>
     </section>
@@ -121,8 +119,8 @@ footer .row{margin:0}
       <div class="art"><canvas data-art="urdu" aria-hidden="true"></canvas></div>
       <div>
         <div class="head"><span class="num">4</span><span class="caps">Under review · Information Processing &amp; Management</span></div>
-        <h2 class="title">Detoxification for Urdu in Nastaliq script.</h2>
-        <p class="body">Text detoxification rewrites an offensive message into a polite one while keeping what it says. Most methods and datasets are built for English. Urdu is spoken by more than 200 million people and written in Nastaliq: right to left, with letters that change shape and flow diagonally within a word. This work builds the first parallel detoxification benchmark for Nastaliq Urdu, 6.5K social-media comments with meaning-preserving rewrites, and a cascade of small models that sends only the hardest cases to a larger one.</p>
+        <h2 class="title">Detoxifying Nastaliq Urdu: A Parallel Benchmark and a Reference-Free Cascade of Small Models</h2>
+        <p class="body">The first parallel detoxification benchmark for Nastaliq Urdu: 6.5K social-media comments with meaning-preserving neutral rewrites. LoRA-tuned small models (Qwen2.5-3B, Phi-4-mini) do most of the work; a reference-free quality gate sends only the worst ~22% of rewrites to a 14B paraphraser.</p>
       </div>
     </section>
 
